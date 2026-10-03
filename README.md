@@ -1,1 +1,0 @@
-# desktop_app_ad_galaad
