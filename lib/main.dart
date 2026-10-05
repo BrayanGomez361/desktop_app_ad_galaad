@@ -1,6 +1,6 @@
 
 import 'package:ad_galaad_app/pages/calendar_page.dart';
-import 'package:ad_galaad_app/pages/monthlyWeeks_page.dart';
+import 'package:ad_galaad_app/pages/weeks_month_page.dart';
 import 'package:ad_galaad_app/pages/splashScreen.dart';
 import 'package:ad_galaad_app/pages/users_page.dart';
 import 'package:ad_galaad_app/providers/local_constants_provider.dart';
@@ -16,11 +16,8 @@ import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   //final prefs = await SharedPreferences.getInstance();
-  //await prefs.remove('constantes_locales_v1');
-
-  //runApp(const MyApp());
+  //await prefs.remove('constantes_locales_v1');  
   runApp(
     MultiProvider(
       providers: [
@@ -45,9 +42,7 @@ class MyApp extends StatelessWidget {
       title: 'Asamblea de Dios Galaad Desktop App',
       themeMode: ThemeMode.dark,
       theme: FluentThemeData(
-        // Aplicamos el nombre de la fuente de Apple
-        fontFamily: '.SF Pro Text', 
-        // Opcional: si quieres ajustar tamaños/pesos específicos
+        fontFamily: '.SF Pro Text',
         typography: Typography.raw(
           caption: const TextStyle(fontSize: 12, letterSpacing: -0.08),
           body: const TextStyle(fontSize: 14, letterSpacing: -0.15),
@@ -108,7 +103,6 @@ class _MainPageState extends State<MainPage> {
           ? IconButton(
               icon: Icon(FluentIcons.global_nav_button), 
               onPressed: () {
-                  // Abre/cierra la barra lateral en modo minimal
                   _navViewKey.currentState?.togglePane();
                 },
             ) 

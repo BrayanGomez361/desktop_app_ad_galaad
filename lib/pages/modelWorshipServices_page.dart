@@ -1,4 +1,5 @@
 
+import 'package:ad_galaad_app/classes/worship_formatService_type.dart';
 import 'package:ad_galaad_app/functions/createWorshipServiceTypeForm_function.dart';
 
 import 'package:ad_galaad_app/providers/local_constants_provider.dart';
@@ -11,6 +12,7 @@ import 'package:fluent_ui/fluent_ui.dart'  hide Card;
 import 'package:flutter/cupertino.dart';
 
 import 'package:provider/provider.dart';
+import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 
 
 class ModelWeekViewPage extends StatefulWidget {
@@ -90,24 +92,7 @@ class _ModelWeekViewPageState extends State<ModelWeekViewPage> {
 
                 Button(
                     style: ButtonStyle(
-                      /*
-                      backgroundColor: WidgetStateProperty.resolveWith<Color>((states) {
-                        // Estado: Presionado (Pressed)
-                        if (states.contains(WidgetState.pressed)) {
-                          return Colors.blue.darker;
-                        }
-                        // Estado: Puntero encima (Hovered)
-                        if (states.contains(WidgetState.hovered)) {
-                          return Colors.blue.lighter;
-                        }
-                        // Estado: Deshabilitado (Disabled)
-                        if (states.contains(WidgetState.disabled)) {
-                          return Colors.grey.withOpacity(0.3);
-                        }
-                        // Estado por defecto (Normal)
-                        return Colors.blue;
-                      }),
-                      */
+                      
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -125,39 +110,7 @@ class _ModelWeekViewPageState extends State<ModelWeekViewPage> {
                     }
                   ),
 
-                  /*
-                FlyoutTarget(
-                  controller: _flyoutController,
-                  child: IconButton (
-                    icon: const Icon(FluentIcons.more, size: 18),
-                    onPressed: () {
-                      
-                      _flyoutController.showFlyout(
-                        
-                        placementMode: FlyoutPlacementMode.bottomLeft,
-                        builder: (contextFlyout) {
-                          return MenuFlyout(
-                            items: [
-                              
-                              MenuFlyoutItem(
-                                leading: const Icon(FluentIcons.pdf),
-                                text: const Text('Exportar PDF'),
-                                onPressed: ()async {
-                                  Flyout.of(contextFlyout).close();
- 
-                                },
-                              ),
-
-                             
-                              
-                            ],
-                          );
-                        },
-                      );
-                    },
-                  ),
-                ),
-                */
+                  
 
 
 
@@ -175,152 +128,55 @@ class _ModelWeekViewPageState extends State<ModelWeekViewPage> {
 
 
 
-      content: Padding(
-        padding: EdgeInsets.only(left:8.0, top:8, right: 8.0),
-        child: CustomScrollView(
+      content: CustomScrollView(
+        slivers: [
           
-          slivers: [
-            
-            
-
-
-            
-            SliverPadding(
-              padding: const EdgeInsets.all(8.0),
-              sliver: formatos.isEmpty
-                  ? SliverToBoxAdapter(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 16.0),
-                        alignment: Alignment.center,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            
-                            Container(
-                              padding: const EdgeInsets.all(16.0),
-                              decoration: BoxDecoration(
-                                color: FluentTheme.of(context).accentColor.normal.withOpacity(0.1),
-                                shape: BoxShape.circle,
-                              ),
-                              child: Icon(
-                                FluentIcons.modeling_view,
-                                size: 40,
-                                color: FluentTheme.of(context).accentColor.normal,
-                              ),
-                            ),
-                            const SizedBox(height: 16),
-                            
-                            
-                            Text(
-                              'No hay formatos de cultos disponibles',
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.w600,
-                                color: FluentTheme.of(context).typography.body?.color?.withOpacity(0.4),
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                            const SizedBox(height: 16),
-                            /*
-                            SizedBox(
-                              width: 220,
-                              child: FilledButton(
-                                onPressed: () {
-                                  
-                                },
-                                child: const Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(FluentIcons.add, size: 14),
-                                    SizedBox(width: 8),
-                                    Text('Agregar anuncio'),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            */
-
-                          ],
-                        ),
-                      ),
-                    )
-                  : 
-                  
-                  SliverToBoxAdapter(
-                    child: Wrap(
-                      spacing: 10.0,    
-                      runSpacing: 10.0,
-                      
-                      children: formatos.map((item) {
-                        return FormatServiceCard(
-                          formato: item,
-                        );
-                      }).toList(),
-                    ),
-                  ),
-            ),
-                        
-                        
-                        
-                      
-             
-
-
-            /*
-            SliverToBoxAdapter(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Button(
-                    style: ButtonStyle(
-                      backgroundColor: WidgetStateProperty.resolveWith<Color>((states) {
-                        // Estado: Presionado (Pressed)
-                        if (states.contains(WidgetState.pressed)) {
-                          return Colors.blue.darker;
-                        }
-                        // Estado: Puntero encima (Hovered)
-                        if (states.contains(WidgetState.hovered)) {
-                          return Colors.blue.lighter;
-                        }
-                        // Estado: Deshabilitado (Disabled)
-                        if (states.contains(WidgetState.disabled)) {
-                          return Colors.grey.withOpacity(0.3);
-                        }
-                        // Estado por defecto (Normal)
-                        return Colors.blue;
-                      }),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(FluentIcons.add, size: 14,),
-                        SizedBox(width: 12),
-                        Text('Agregar programa de cultos', 
-                          
-                        ),
-                      ],
-                    ), 
-                    onPressed: (){
-                      
-                      mostrarDialogCrearNuevoFormatoDePrograma(context, null);
-                    }
-                  ),
-                  
-                ],
-              ),
-            ),
-            */
-
-            SliverToBoxAdapter(
-              child: SizedBox(
-                height: 100,
-              ),
-            )
+          SliverPadding(
+            padding: const EdgeInsets.all(16.0),
+            sliver: ReorderableSliverGridView (
+              // Parámetros obligatorios de layout
+              crossAxisCount: 3, // Número de columnas
+              mainAxisSpacing: 12.0, // Espaciado vertical
+              crossAxisSpacing: 12.0, // Espaciado horizontal
+              childAspectRatio: 1.1, // Proporción Ancho / Alto de la tarjeta
         
-          ],
-
-
-        ),
+              dragStartDelay: Duration.zero,
+        
+              // Callback de reordenamiento
+              onReorder: (oldIndex, newIndex) {
+                final listaActualizada = List<WorshipServiceFormat>.from(formatos);
+                final item = listaActualizada.removeAt(oldIndex);
+                listaActualizada.insert(newIndex, item);
+        
+                context.read<LocalConstantsProvider>().reordenarFormatos(listaActualizada);
+              },
+        
+              // Generamos la lista de Widgets asignando a cada uno su Key
+              children: formatos.map((formato) {
+                return FormatServiceCard(
+                  key: ValueKey(formato.id),
+                  formato: formato,
+                );
+              }).toList(),
+            ),
+          ),      
+                      
+                      
+                    
+           
+      
+      
+          
+      
+          SliverToBoxAdapter(
+            child: SizedBox(
+              height: 100,
+            ),
+          )
+      
+        ],
+      
+      
       )
       
       

@@ -1,9 +1,6 @@
-import 'package:ad_galaad_app/classes/worship_formatService_type.dart';
-import 'package:ad_galaad_app/providers/local_constants_provider.dart';
-import 'package:ad_galaad_app/widgets/formatServiceCard_widget.dart';
+
 import 'package:fluent_ui/fluent_ui.dart';
-import 'package:provider/provider.dart';
-import 'package:reorderable_grid_view/reorderable_grid_view.dart';
+
 
 class CalendarPage extends StatefulWidget {
   const CalendarPage({super.key});
@@ -13,57 +10,109 @@ class CalendarPage extends StatefulWidget {
 }
 
 class _CalendarPageState extends State<CalendarPage> {
+  final FlyoutController _flyoutController = FlyoutController();
+  @override
+  void dispose() {
+    _flyoutController.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
-    final provider = context.watch<LocalConstantsProvider>();
-    final formatos = provider.formatos;
+    
 
     return ScaffoldPage(
       header: PageHeader(
-        title: Text('Formatos de Cultos ${formatos.length}'),
-        commandBar: CommandBar(
-          mainAxisAlignment: MainAxisAlignment.end,
-          primaryItems: [
-            CommandBarButton(
-              icon: const Icon(FluentIcons.add),
-              label: const Text('Nuevo Formato'),
-              onPressed: () {},
-
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('Calendario de actividades'),
+            FlyoutTarget(
+              controller: _flyoutController, 
+              child: IconButton(
+                icon: const Icon(FluentIcons.more, size: 18),
+                onPressed: (){
+                  _flyoutController.showFlyout(
+                    placementMode: FlyoutPlacementMode.bottomCenter,
+                    builder: (contextFlyout) {
+                      return MenuFlyout(
+                        items: [
+                          MenuFlyoutItem(
+                            leading: const Icon(FluentIcons.add_event),
+                            text: const Text('Crear evento'),
+                            onPressed: () {
+                              Flyout.of(contextFlyout).close();
+                            },
+                          ),
+                          /*
+                          MenuFlyoutItem(
+                            leading: const Icon(FluentIcons.group),
+                            text: const Text('Agrupar por categoría'),
+                            onPressed: () {
+                              Flyout.of(contextFlyout).close();
+                            },
+                          ),*/
+                        ],
+                      );
+                    },
+                  );
+                }
+              )
             ),
           ],
         ),
+        
       ),
       content: CustomScrollView(
         slivers: [
-          SliverPadding(
-            padding: const EdgeInsets.all(16.0),
-            sliver: ReorderableSliverGridView(
-              // Parámetros obligatorios de layout
-              crossAxisCount: 3, // Número de columnas
-              mainAxisSpacing: 12.0, // Espaciado vertical
-              crossAxisSpacing: 12.0, // Espaciado horizontal
-              childAspectRatio: 1.8, // Proporción Ancho / Alto de la tarjeta
+          
 
-              dragStartDelay: Duration.zero,
+          
 
-              // Callback de reordenamiento
-              onReorder: (oldIndex, newIndex) {
-                final listaActualizada = List<WorshipServiceFormat>.from(formatos);
-                final item = listaActualizada.removeAt(oldIndex);
-                listaActualizada.insert(newIndex, item);
+            
 
-                context.read<LocalConstantsProvider>().reordenarFormatos(listaActualizada);
-              },
-
-              // Generamos la lista de Widgets asignando a cada uno su Key
-              children: formatos.map((formato) {
-                return FormatServiceCard(
-                  key: ValueKey(formato.id),
-                  formato: formato,
-                );
-              }).toList(),
+            // 2. Estado vacío (Empty State) estilizado en caso de no tener actividades asignadas
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(20.0),
+                      decoration: BoxDecoration(
+                        color: FluentTheme.of(context).cardColor,
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: FluentTheme.of(context).resources.dividerStrokeColorDefault,
+                        ),
+                      ),
+                      child: Icon(
+                        FluentIcons.calendar_reply,
+                        size: 42,
+                        color: FluentTheme.of(context).typography.body?.color?.withOpacity(0.4),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      'No hay actividades programadas',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: FluentTheme.of(context).typography.body?.color?.withOpacity(0.7),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Haz clic en "Nueva actividad" para agregar eventos al calendario.',
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: FluentTheme.of(context).typography.body?.color?.withOpacity(0.4),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
-          ),
         ],
       ),
     );
